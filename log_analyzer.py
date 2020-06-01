@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import argparse
+
 
 # log_format ui_short '$remote_addr  $remote_user $http_x_real_ip [$time_local] "$request" '
 #                     '$status $body_bytes_sent "$http_referer" '
@@ -15,7 +17,15 @@ config = {
 
 
 def stdin_args():
-    pass
+    parser = argparse.ArgumentParser(description='Configuration file')
+    parser.add_argument(
+        '--config',
+        default='def',  # default configuration file
+        type=str,
+        help='Custom configuration file'
+    )
+    print(parser.parse_args().config)
+    return parser.parse_args().config
 
 
 def configuration_file_parse():
@@ -50,4 +60,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    stdin_args()
