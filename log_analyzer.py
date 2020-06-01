@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import argparse
+import json
 
 
 # log_format ui_short '$remote_addr  $remote_user $http_x_real_ip [$time_local] "$request" '
@@ -9,18 +10,12 @@ import argparse
 #                     '"$http_user_agent" "$http_x_forwarded_for" "$http_X_REQUEST_ID" "$http_X_RB_USER" '
 #                     '$request_time';
 
-config = {
-    "REPORT_SIZE": 1000,
-    "REPORT_DIR": "./reports",
-    "LOG_DIR": "./log"
-}
-
 
 def stdin_args():
     parser = argparse.ArgumentParser(description='Configuration file')
     parser.add_argument(
         '--config',
-        default='def',  # default configuration file
+        default='./def_config.json',  # default configuration file
         type=str,
         help='Custom configuration file'
     )
@@ -28,7 +23,20 @@ def stdin_args():
     return parser.parse_args().config
 
 
-def configuration_file_parse():
+def configuration_file_parse(configuration_file):
+    default_config = {
+        "REPORT_SIZE": 1000,
+        "REPORT_DIR": "./reports",
+        "LOG_DIR": "./log"
+    }
+    with open(configuration_file, 'r') as f:
+        custom_config = json.load(f)
+    config = {**default_config, **custom_config}
+    return config
+
+
+
+
     pass
 
 
